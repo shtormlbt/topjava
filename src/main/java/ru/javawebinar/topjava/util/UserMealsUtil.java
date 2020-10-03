@@ -79,4 +79,8 @@ public class UserMealsUtil {
 
         return returnList;
     }
+
+//    public static List<UserMealWithExcess> filteredByCyclesOptional2(List<UserMeal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay){
+//
+//    }
 }
