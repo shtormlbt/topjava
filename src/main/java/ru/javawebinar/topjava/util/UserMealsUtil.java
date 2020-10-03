@@ -73,14 +73,21 @@ public class UserMealsUtil {
                 (a, b) -> Integer.sum(a, b)
         )).entrySet().stream().filter(i -> i.getValue() > caloriesPerDay).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
-
-        meals.stream().forEach(x -> returnList.add(new UserMealWithExcess(x.getDateTime(), x.getDescription(), x.getCalories(), calMapCount.containsKey(x.getDateTime().toLocalDate()))));
+        meals.forEach(x -> returnList.add(new UserMealWithExcess(x.getDateTime(), x.getDescription(), x.getCalories(), calMapCount.containsKey(x.getDateTime().toLocalDate()))));
 
 
         return returnList;
     }
 
-//    public static List<UserMealWithExcess> filteredByCyclesOptional2(List<UserMeal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay){
-//
-//    }
+    //метод из разбора задания
+    public static List<UserMealWithExcess> filteredByCyclesOptional2(List<UserMeal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay){
+        Map<LocalDate, Integer> caloriesSummByDate = meals.stream().collect(Collectors.groupingBy(um -> um.getDateTime().toLocalDate(),Collectors.summingInt(um -> um.getCalories())));
+
+        return meals.stream()
+                .filter(um -> TimeUtil.isBetweenHalfOpen(um.getDateTime().toLocalTime(),startTime,endTime))
+                .map(um -> new UserMealWithExcess(um.getDateTime(),um.getDescription(),um.getCalories(),
+                    caloriesSummByDate.get(um.getDateTime().toLocalDate())>caloriesPerDay))
+                .collect(Collectors.toList());
+
+    }
 }
