@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page pageEncoding="UTF-8" contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://sargue.net/jsptags/time" prefix="javatime" %>
 <html lang="ru">
@@ -25,10 +25,12 @@
 <hr>
 <h2>Meals</h2>
 
-<h1>Add Meal</h1>
+<a href="?action=add">Add Meal</a>
+<br/>
 <%--https://stackoverflow.com/questions/35606551/jstl-localdatetime-format--%>
 <table>
     <tr>
+        <th>Id</th>
         <th>Date</th>
         <th>Description</th>
         <th>Calories</th>
@@ -39,21 +41,23 @@
     <c:forEach items="${meals}" var="mealsv">
         <c:if test="${mealsv.excess == true}">
                 <tr style="color: red">
+                    <td>${mealsv.id}</td>
                     <td><javatime:format value="${mealsv.dateTime}" pattern="yyyy-MM-dd HH:mm" /></td>
                     <td>${mealsv.description}</td>
                     <td>${mealsv.calories}</td>
                     <td>Update</td>
-                    <td>Delete</td>
+                    <td><a href="?action=delete&id=${mealsv.id}">Delete</a></td>
                 </tr>
         </c:if>
         <c:if test="${mealsv.excess == false}">
 
                 <tr style="color: green">
+                    <td>${mealsv.id}</td>
                     <td><javatime:format value="${mealsv.dateTime}" pattern="yyyy-MM-dd HH:mm" /></td>
                     <td>${mealsv.description}</td>
                     <td>${mealsv.calories}</td>
                     <td>Update</td>
-                    <td>Delete</td>
+                    <td><a href="?action=delete&id=${mealsv.id}">Delete</a></td>
                 </tr>
         </c:if>
     </c:forEach>
