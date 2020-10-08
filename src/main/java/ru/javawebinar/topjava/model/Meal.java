@@ -20,10 +20,6 @@ public class Meal {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public LocalDateTime getDateTime() {
         return dateTime;
     }
@@ -43,6 +39,12 @@ public class Meal {
     public LocalTime getTime() {
         return dateTime.toLocalTime();
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+
 
     @Override
     public String toString() {

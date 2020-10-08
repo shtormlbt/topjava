@@ -29,4 +29,14 @@ public class MealToDaoAccessMemoryImpl implements MealToDaoAccess {
     public List<Meal> getMeals() {
         return mealMemoryDao.getMeals();
     }
+
+    @Override
+    public Meal findToId(int id) {
+        return mealMemoryDao.findToId(id);
+    }
+
+    @Override
+    public Meal update(Meal meal) {
+        return mealMemoryDao.update(meal);
+    }
 }

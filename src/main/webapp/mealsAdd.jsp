@@ -23,17 +23,30 @@
 <body>
 <h3><a href="index.html">Home</a></h3>
 <hr>
-<h2>Meals</h2>
+<%--<c:if test="${action==add}">--%>
+<%--    <h2>Add meal</h2>--%>
+<%--</c:if>--%>
+<%--<c:if test="${action==update}">--%>
+<%--    <h2>Edit meal</h2>--%>
+<%--</c:if>--%>
+
+<% if (request.getAttribute("action").equals("add")) { %>
+<h3>Add meal</h3>
+<% } %>
+<% if (request.getAttribute("action").equals("update")) { %>
+<h3>Edit meal</h3>
+<% } %>
 
 <form action="meals" method="post" name="frmAddMeal">
 
+    <input type="hidden" name="id" value="<c:out value="${meal.id}"/>" >
     <table>
         <tr>
             <td>
     DateTime:
             </td>
             <td>
-            <input type="datetime-local" name="dateTime" value="<c:out value="${mealsv.dateTime}"/>" /><br />
+            <input type="datetime-local" name="dateTime" value="<c:out value="${meal.dateTime}"/>" /><br />
             </td>
         </tr>
         <tr>
@@ -41,7 +54,7 @@
     Description:
             </td>
             <td>
-                <input type="text"  name="description" value="<c:out value="${mealsv.description}"/>" /><br />
+                <input type="text"  name="description" value="<c:out value="${meal.description}"/>" /><br />
             </td>
         </tr>
         <tr>
@@ -49,7 +62,7 @@
     Calories:
             </td>
             <td>
-                <input type="text" name="calories" value="<c:out value="${mealsv.calories}"/>" /><br />
+                <input type="text" name="calories" value="<c:out value="${meal.calories}"/>" /><br />
             </td>
         </tr>
     </table>

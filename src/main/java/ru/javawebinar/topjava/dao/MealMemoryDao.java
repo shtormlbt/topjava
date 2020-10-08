@@ -7,6 +7,7 @@ import ru.javawebinar.topjava.util.MealsUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -45,6 +46,7 @@ public class MealMemoryDao {
         countid++;
         log.debug("countid+1 "+countid);
         meal.setId(countid);
+
         meals.add(meal);
         log.debug("добавили вот такой Meal "+meal.toString());
         return meal;
@@ -92,6 +94,22 @@ public class MealMemoryDao {
      */
     public List<Meal> getMeals(){
         return meals;
+    }
+
+    /**
+     * поиск объекта Meal по id;
+     * @param id
+     * @return - возвражает найденный объект либо null;
+     */
+    public Meal findToId(int id){
+        Optional<Meal> returtMeal = meals.stream().filter(x->x.getId()==id).findFirst();
+        return returtMeal.orElse(null);
+    }
+
+    public Meal update(Meal meal){
+        delete(meal.getId());
+        meals.add(meal);
+        return meal;
     }
 
 }

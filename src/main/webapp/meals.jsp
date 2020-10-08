@@ -26,11 +26,11 @@
 <h2>Meals</h2>
 
 <a href="?action=add">Add Meal</a>
-<br/>
+<p/>
 <%--https://stackoverflow.com/questions/35606551/jstl-localdatetime-format--%>
 <table>
     <tr>
-        <th>Id</th>
+
         <th>Date</th>
         <th>Description</th>
         <th>Calories</th>
@@ -41,22 +41,22 @@
     <c:forEach items="${meals}" var="mealsv">
         <c:if test="${mealsv.excess == true}">
                 <tr style="color: red">
-                    <td>${mealsv.id}</td>
+
                     <td><javatime:format value="${mealsv.dateTime}" pattern="yyyy-MM-dd HH:mm" /></td>
                     <td>${mealsv.description}</td>
                     <td>${mealsv.calories}</td>
-                    <td>Update</td>
+                    <td><a href="?action=update&id=${mealsv.id}">Update</a></td>
                     <td><a href="?action=delete&id=${mealsv.id}">Delete</a></td>
                 </tr>
         </c:if>
         <c:if test="${mealsv.excess == false}">
 
                 <tr style="color: green">
-                    <td>${mealsv.id}</td>
+
                     <td><javatime:format value="${mealsv.dateTime}" pattern="yyyy-MM-dd HH:mm" /></td>
                     <td>${mealsv.description}</td>
                     <td>${mealsv.calories}</td>
-                    <td>Update</td>
+                    <td><a href="?action=update&id=${mealsv.id}">Update</a></td>
                     <td><a href="?action=delete&id=${mealsv.id}">Delete</a></td>
                 </tr>
         </c:if>
