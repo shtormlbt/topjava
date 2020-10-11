@@ -1,9 +1,73 @@
 package ru.javawebinar.topjava.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
+import ru.javawebinar.topjava.repository.inmemory.InMemoryMealRepository;
+import ru.javawebinar.topjava.to.MealTo;
+import ru.javawebinar.topjava.util.MealsUtil;
+import ru.javawebinar.topjava.util.exception.NotFoundException;
+import java.util.Collection;
+import java.util.List;
 
+
+@Service
 public class MealService {
 
+    @Autowired
+    //@Qualifier("InMemoryMealRepository")
     private MealRepository repository;
+
+
+    public Meal create(Integer userId, Meal meal){
+        if(userId!=null&&meal!=null) {
+            repository.save(userId, meal);
+            return meal;
+        }else{
+            return null;
+        }
+    }
+
+    public void delete(Integer userId, int mealId){
+        Meal rmeal = repository.get(userId,mealId);
+        if(rmeal.getUserId()==userId) {
+            repository.delete(userId, mealId);
+        }else {
+            throw new NotFoundException("не найдена еда с id "+mealId+", или он принадлежит другому пользователю");
+        }
+    }
+
+    public Meal get(Integer userId, int mealId){
+
+        Meal rmeal = repository.get(userId,mealId);
+
+        if(rmeal.getUserId()==userId) {
+            return rmeal;
+        }else {
+            throw new NotFoundException("не найдена еда с id "+mealId+", или он принадлежит другому пользователю");
+        }
+    }
+
+    /**
+     * здесь конвертация Meal в MealTo
+     * @param userId
+     *
+     * @return
+     */
+    public List<MealTo> getAll(Integer userId, int caloriesPerDay){
+        Collection<Meal> rmeal;
+        if((rmeal = repository.getAll(userId))!=null){
+            return MealsUtil.getTos(rmeal,caloriesPerDay);
+        }else {
+            throw new NotFoundException("еда для переданного юзера не найдена");
+        }
+    }
+
+    public void update(Integer userId, Meal meal){
+        repository.save(userId,meal);
+    }
+
 
 }
