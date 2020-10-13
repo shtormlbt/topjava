@@ -21,6 +21,17 @@
     <h3><a href="index.html">Home</a></h3>
     <hr/>
     <h2>Meals</h2>
+
+    <form method="get" action="/topjava/meals">
+        <input type="hidden" name="action" value="filter">
+        <input type="date" name="dateafter">
+        <input type="date" name="datebefore">
+        <input type="time" name="timeafter">
+        <input type="time" name="timebefore">
+
+        <button type="submit">Отфильтровать</button>
+    </form>
+
     <a href="meals?action=create">Add Meal</a>
     <br><br>
     <table border="1" cellpadding="8" cellspacing="0">

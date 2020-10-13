@@ -41,6 +41,12 @@ public class MealServlet extends HttpServlet {
     }
 
     @Override
+    public void destroy() {
+
+        super.destroy();
+    }
+
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         String id = request.getParameter("id");
@@ -68,7 +74,15 @@ public class MealServlet extends HttpServlet {
 
 
         String action = request.getParameter("action");
-
+        String dateafter = request.getParameter("dateafter");
+        String datebefore = request.getParameter("datebefore");
+        String timeafter = request.getParameter("timeafter");
+        String timebefore = request.getParameter("timebefore");
+        if(action!=null) {
+            if (action.equalsIgnoreCase("filter")&&dateafter == "" && datebefore == "" && timeafter == "" && timebefore == "") {
+                action = "all";
+            }
+        }
         switch (action == null ? "all" : action) {
             case "delete":
                 int id = getId(request);
@@ -83,6 +97,11 @@ public class MealServlet extends HttpServlet {
                         mealService.get(SecurityUtil.authUserId(), getId(request));
                 request.setAttribute("meal", meal);
                 request.getRequestDispatcher("/mealForm.jsp").forward(request, response);
+                break;
+            case "filter":
+                log.info("filtered");
+                request.setAttribute("meals",mealService.getFilteredDateTime(SecurityUtil.authUserId(), MealsUtil.DEFAULT_CALORIES_PER_DAY, dateafter, datebefore, timeafter, timebefore));
+                request.getRequestDispatcher("/meals.jsp").forward(request, response);
                 break;
             case "all":
             default:
