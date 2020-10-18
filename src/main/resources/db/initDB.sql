@@ -18,10 +18,10 @@ CREATE UNIQUE INDEX users_unique_email_idx ON users (email);
 
 CREATE TABLE user_roles
 (
-  user_id INTEGER NOT NULL,
-  role    VARCHAR,
-  CONSTRAINT user_roles_idx UNIQUE (user_id, role),
-  FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+    user_id INTEGER NOT NULL,
+    role    VARCHAR,
+    CONSTRAINT user_roles_idx UNIQUE (user_id, role),
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
 CREATE TABLE meals
@@ -31,10 +31,13 @@ CREATE TABLE meals
     description VARCHAR   NOT NULL,
     calories    INTEGER   NOT NULL,
     UNIQUE (id, date_time)
+
 );
 
 CREATE TABLE user_meal
 (
     user_id INTEGER NOT NULL,
-    meal_id INTEGER not null
+    meal_id INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+    FOREIGN KEY (meal_id) REFERENCES meals (id) ON DELETE CASCADE
 );
