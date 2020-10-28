@@ -1,5 +1,7 @@
 package ru.javawebinar.topjava.service;
 
+import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,8 @@ import ru.javawebinar.topjava.UserTestData;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
+import ru.javawebinar.topjava.web.user.ClassRuleTest;
+import ru.javawebinar.topjava.web.user.TestLogger;
 
 import java.util.List;
 
@@ -28,6 +32,12 @@ public class UserServiceTest {
 
     @Autowired
     private UserService service;
+
+    @Rule
+    public final TestLogger logger = new TestLogger();
+
+    @ClassRule
+    public static ClassRuleTest classRuleTest = new ClassRuleTest();
 
     @Test
     public void create() throws Exception {

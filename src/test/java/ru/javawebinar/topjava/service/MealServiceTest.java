@@ -1,7 +1,12 @@
 package ru.javawebinar.topjava.service;
 
+import org.junit.Before;
+import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
@@ -11,6 +16,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import ru.javawebinar.topjava.TestMatcher;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
+import ru.javawebinar.topjava.web.user.ClassRuleTest;
+import ru.javawebinar.topjava.web.user.TestLogger;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -35,10 +42,19 @@ public class MealServiceTest {
     @Autowired
     private MealService service;
 
+
+    @Rule
+    public final TestLogger logger = new TestLogger();
+
+    @ClassRule
+    public static ClassRuleTest classRuleTest = new ClassRuleTest();
+
+
     @Test
     public void delete() throws Exception {
         service.delete(MEAL1_ID, USER_ID);
         assertThrows(NotFoundException.class, () -> service.get(MEAL1_ID, USER_ID));
+
     }
 
     @Test
