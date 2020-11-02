@@ -1,7 +1,9 @@
 package ru.javawebinar.topjava.repository.datajpa;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.MealRepository;
 
 import java.time.LocalDateTime;
@@ -16,28 +18,46 @@ public class DataJpaMealRepository implements MealRepository {
         this.crudRepository = crudRepository;
     }
 
+    @Autowired
+    private DataJpaUserRepository userRepository;
+
     @Override
     public Meal save(Meal meal, int userId) {
-        return null;
+        User user = userRepository.get(userId);
+        meal.setUser(user);
+        if(meal.isNew()){
+            return crudRepository.save(meal);
+        }else if(crudRepository.getByIdAndUserId(meal.getId(),userId)==null){
+            return null;
+        }
+        return crudRepository.save(meal);
+
     }
 
     @Override
     public boolean delete(int id, int userId) {
-        return false;
+        //Meal meal = crudRepository.getById(id);
+        Meal delMeal = crudRepository.getByIdAndUserId(id,userId);
+        if(delMeal!=null){
+            crudRepository.delete(delMeal);
+            return true;
+        }else{
+            return false;
+        }
     }
 
     @Override
     public Meal get(int id, int userId) {
-        return null;
+        return crudRepository.getByIdAndUserId(id,userId);
     }
 
     @Override
     public List<Meal> getAll(int userId) {
-        return null;
+        return  crudRepository.getAllByUserIdOrderByDateTimeDesc(userId);
     }
 
     @Override
     public List<Meal> getBetweenHalfOpen(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
-        return null;
+        return crudRepository.getDateTimeDateBetweenStartDateAndStopDate(userId,startDateTime,endDateTime);
     }
 }
