@@ -33,7 +33,6 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
         "classpath:spring/spring-app.xml",
         "classpath:spring/spring-db.xml"
 })
-@Deprecated
 @RunWith(SpringRunner.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 @ActiveProfiles(resolver = ActiveDbProfileResolver.class)

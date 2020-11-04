@@ -5,9 +5,11 @@ import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
+@Transactional
 public class DataJpaUserRepository implements UserRepository {
     private static final Sort SORT_NAME_EMAIL = Sort.by(Sort.Direction.ASC, "name", "email");
 
