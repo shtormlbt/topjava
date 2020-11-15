@@ -3,13 +3,10 @@ package ru.javawebinar.topjava.web.meal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.service.MealService;
 import ru.javawebinar.topjava.util.MealsUtil;
@@ -37,8 +34,10 @@ public class JspMealController{
                            LocalTime endTime, Model model) {
         int userId = SecurityUtil.authUserId();
         log.info("getAll for user {}",userId);
-        LocalDate startDateLocal = startDate==null?null:LocalDate.parse(startDate);
-        LocalDate endDateLocal = endDate==null?null:LocalDate.parse(endDate);
+        if(startDate==null)startDate="";
+        if(endDate==null)endDate="";
+        LocalDate startDateLocal = startDate==""?null:LocalDate.parse(startDate);
+        LocalDate endDateLocal = endDate==""?null:LocalDate.parse(endDate);
 
         List<Meal> mealsDateFiltered = mealService.getBetweenInclusive(startDateLocal,endDateLocal, userId);
         model.addAttribute("meals",MealsUtil.getFilteredTos(mealsDateFiltered,SecurityUtil.authUserCaloriesPerDay(), startTime, endTime));
