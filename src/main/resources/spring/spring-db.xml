@@ -123,7 +123,7 @@
         </bean>
 
         <tx:annotation-driven/>
-        
+
 
 
         <!-- Transaction manager for a single JPA EntityManagerFactory (alternative to JTA) -->
@@ -133,9 +133,9 @@
         <bean class="ru.javawebinar.topjava.repository.JpaUtil"/>
     </beans>
 
-<!--    <beans profile="jpa">-->
-<!--        <context:component-scan base-package="ru.javawebinar.**.repository.jpa"/>-->
-<!--    </beans>-->
+    <beans profile="jpa">
+        <context:component-scan base-package="ru.javawebinar.**.repository.jpa"/>
+    </beans>
 
     <beans profile="datajpa">
         <context:component-scan base-package="ru.javawebinar.**.repository.datajpa"/>
